@@ -2,8 +2,6 @@ import requests
 import bs4
 import re
 
-KEYWORDS = ['дизайн', 'фото', 'web', 'python', 'я']
-
 
 class ParserHabr:
 
@@ -20,7 +18,7 @@ class ParserHabr:
         self.soup = bs4.BeautifulSoup(self.text, features="html.parser")
         return self.soup
 
-    def search_previer_text(self, words):
+    def search_preview_text(self, words):
         articles = self.__connect_bs4('/ru/all/').find_all('article')
         for article in articles:
             word_list = re.findall(r'\w+', article.find(class_="tm-article-body tm-article-snippet__lead").text, re.I)
@@ -41,9 +39,3 @@ class ParserHabr:
                 title = article.find("h2").find("span").text
                 result = f'<{date_article}>-<{title}>-<{self.base_url + href}>'
                 print(result)
-
-
-if __name__ == '__main__':
-    item = ParserHabr()
-    item.search_previer_text(KEYWORDS)
-    # item.search_text_article(KEYWORDS)
